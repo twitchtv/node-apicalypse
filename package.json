@@ -1,0 +1,33 @@
+{
+  "name": "@igdb/apicalypse",
+  "version": "0.0.1",
+  "description": "The apicalypse query language client for nodejs",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "test": "mocha --compilers js:@babel/register",
+    "testDebug": "mocha --inspect-brk --compilers js:@babel/register",
+    "build": "babel src -d dist"
+  },
+  "keywords": [
+    "query",
+    "language",
+    "graphql",
+    "apicalypse"
+  ],
+  "author": "krazyjakee@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-rc.2",
+    "@babel/core": "^7.0.0-rc.2",
+    "@babel/preset-env": "^7.0.0-rc.2",
+    "@babel/register": "^7.0.0-rc.2",
+    "eslint": "^5.4.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "mocha": "^5.2.0",
+    "prettier": "^1.14.2"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
