@@ -25,7 +25,7 @@ class Apicalypse {
 
   order(field, direction) {
     if (field) {
-      this.queryArray.push(`order ${field}:${direction || "asc"}`);
+      this.queryArray.push(`order ${field} ${direction || "asc"}`);
     }
     return this;
   }

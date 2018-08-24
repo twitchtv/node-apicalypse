@@ -25,8 +25,8 @@ describe("query", () => {
       .order("name", "desc")
       .order("name");
 
-    assert(test.queryArray.includes("order name:desc"));
-    assert(test.queryArray.includes("order name:asc"));
+    assert(test.queryArray.includes("order name desc"));
+    assert(test.queryArray.includes("order name asc"));
   });
 
   it("should add search to queryArray", () => {
