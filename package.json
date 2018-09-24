@@ -1,6 +1,6 @@
 {
   "name": "@igdb/apicalypse",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The apicalypse query language client for nodejs",
   "main": "dist/index.js",
   "scripts": {

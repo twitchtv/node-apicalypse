@@ -85,7 +85,7 @@ class Apicalypse {
   }
 
   async request(url) {
-    const response = await axios(constructOptions(url));
+    const response = await axios(this.constructOptions(url));
     return response;
   }
 }
