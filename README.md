@@ -50,8 +50,8 @@ const response = await apicalypse({
     .limit(50) // limit to 50 results
     .offset(10) // offset results by 10
 
-    .order("name") // default sort direction is 'asc' (ascending)
-    .order("name", "desc") // sorts by name, descending
+    .sort("name") // default sort direction is 'asc' (ascending)
+    .sort("name", "desc") // sorts by name, descending
     .search("Arnold") // search for a specific name (search implementations can vary)
     
     .query("age > 50 & movies != n") // filter the results

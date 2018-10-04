@@ -20,13 +20,13 @@ describe("filter", () => {
     assert(test.filterArray.includes("offset 10"));
   });
 
-  it("should add order to filterArray", () => {
+  it("should add sort to filterArray", () => {
     const test = apicalypse()
-      .order("name", "desc")
-      .order("name");
+      .sort("name", "desc")
+      .sort("name");
 
-    assert(test.filterArray.includes("order name desc"));
-    assert(test.filterArray.includes("order name asc"));
+    assert(test.filterArray.includes("sort name desc"));
+    assert(test.filterArray.includes("sort name asc"));
   });
 
   it("should add search to filterArray", () => {

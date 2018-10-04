@@ -23,9 +23,9 @@ class Apicalypse {
     return this;
   }
 
-  order(field, direction) {
+  sort(field, direction) {
     if (field) {
-      this.filterArray.push(`order ${field} ${direction || "asc"}`);
+      this.filterArray.push(`sort ${field} ${direction || "asc"}`);
     }
     return this;
   }
