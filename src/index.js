@@ -10,7 +10,7 @@ class Apicalypse {
       },
       opts
     );
-    this.queryArray = [];
+    this.filterArray = [];
   }
 
   fields(fields) {
@@ -18,52 +18,52 @@ class Apicalypse {
       let fieldsString =
         fields && fields.constructor === Array ? fields.join(",") : fields;
       fieldsString = fieldsString ? fieldsString.replace(/\s/g, "") : "";
-      this.queryArray.push(`fields ${fieldsString}`);
+      this.filterArray.push(`fields ${fieldsString}`);
     }
     return this;
   }
 
   order(field, direction) {
     if (field) {
-      this.queryArray.push(`order ${field} ${direction || "asc"}`);
+      this.filterArray.push(`order ${field} ${direction || "asc"}`);
     }
     return this;
   }
 
   limit(limit) {
     if (limit) {
-      this.queryArray.push(`limit ${limit}`);
+      this.filterArray.push(`limit ${limit}`);
     }
     return this;
   }
 
   offset(offset) {
     if (offset) {
-      this.queryArray.push(`offset ${offset}`);
+      this.filterArray.push(`offset ${offset}`);
     }
     return this;
   }
 
   search(search) {
     if (search) {
-      this.queryArray.push(`search ${search}`);
+      this.filterArray.push(`search ${search}`);
     }
     return this;
   }
 
-  query(filters) {
+  filter(filters) {
     if (filters) {
       if (filters.constructor === Array) {
-        this.queryArray.push(`query ${filters.join(" & ")}`);
+        this.filterArray.push(`filter ${filters.join(" & ")}`);
       } else {
-        this.queryArray.push(`query ${filters.trim()}`);
+        this.filterArray.push(`filter ${filters.trim()}`);
       }
     }
     return this;
   }
 
   constructOptions(url) {
-    this.apicalypse = this.queryArray ? this.queryArray.join(";") + ";" : "";
+    this.apicalypse = this.filterArray ? this.filterArray.join(";") + ";" : "";
     const options = {
       url: url || this.config.url
     };

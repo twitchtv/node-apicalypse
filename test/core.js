@@ -8,11 +8,11 @@ describe("core", () => {
     assert.equal(test.config.queryMethod, "body");
   });
 
-  it("should initiate with an apicalypse query and config", () => {
-    const query = `fields id;limit 50; offset 50;`;
-    const test = apicalypse(query, { queryMethod: "url" });
+  it("should initiate with an apicalypse filter and config", () => {
+    const filter = `fields id;limit 50; offset 50;`;
+    const test = apicalypse(filter, { queryMethod: "url" });
 
-    assert.equal(test.apicalypse, query);
+    assert.equal(test.apicalypse, filter);
     assert.equal(test.config.queryMethod, "url");
   });
 
