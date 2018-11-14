@@ -76,7 +76,7 @@ class Apicalypse {
         break;
       }
       case "body": {
-        options.data = this.apicalypse;
+        options.data = this.config.data || this.apicalypse;
         break;
       }
     }

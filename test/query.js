@@ -44,4 +44,11 @@ describe("filter", () => {
     assert(test.filterArray.includes(`filter a = 1 & b = 2 & c = 3`));
     assert(test.filterArray.includes(`filter x = 1 & y = 2 & z = 3`));
   });
+
+  it("should not override the request body", () => {
+    const test = apicalypse({
+      data: 'x'
+    }).constructOptions('/');
+    assert(test.data === 'x');
+  });
 });
