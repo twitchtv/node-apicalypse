@@ -51,12 +51,12 @@ class Apicalypse {
     return this;
   }
 
-  filter(filters) {
+  where(filters) {
     if (filters) {
       if (filters.constructor === Array) {
-        this.filterArray.push(`filter ${filters.join(" & ")}`);
+        this.filterArray.push(`where ${filters.join(" & ")}`);
       } else {
-        this.filterArray.push(`filter ${filters.trim()}`);
+        this.filterArray.push(`where ${filters.trim()}`);
       }
     }
     return this;

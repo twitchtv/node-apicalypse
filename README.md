@@ -54,8 +54,8 @@ const response = await apicalypse({
     .sort("name", "desc") // sorts by name, descending
     .search("Arnold") // search for a specific name (search implementations can vary)
     
-    .query("age > 50 & movies != n") // filter the results
-    .query(["age > 50", "movies != n"]) // same as above
+    .where("age > 50 & movies != n") // filter the results
+    .where(["age > 50", "movies != n"]) // same as above
     .request("https://myapi.com/actors"); // execute the query and return a response object
 
 console.log(response.data);

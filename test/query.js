@@ -36,13 +36,13 @@ describe("filter", () => {
     assert(test.filterArray.includes(`search ${search}`));
   });
 
-  it("should add filter to filterArray", () => {
+  it("should add where to filterArray", () => {
     const test = apicalypse()
-      .filter(["a = 1", "b = 2", "c = 3"])
-      .filter("x = 1 & y = 2 & z = 3");
+      .where(["a = 1", "b = 2", "c = 3"])
+      .where("x = 1 & y = 2 & z = 3");
 
-    assert(test.filterArray.includes(`filter a = 1 & b = 2 & c = 3`));
-    assert(test.filterArray.includes(`filter x = 1 & y = 2 & z = 3`));
+    assert(test.filterArray.includes(`where a = 1 & b = 2 & c = 3`));
+    assert(test.filterArray.includes(`where x = 1 & y = 2 & z = 3`));
   });
 
   it("should not override the request body", () => {
