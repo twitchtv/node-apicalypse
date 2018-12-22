@@ -85,7 +85,7 @@ class Apicalypse {
   }
 
   async request(url) {
-    const response = await axios(this.constructOptions(url));
+    const response = await axios.create()(this.constructOptions(url));
     return response;
   }
 }
@@ -93,9 +93,6 @@ class Apicalypse {
 export default (apicalypse, opts) => {
   opts = opts || {};
   if (apicalypse && apicalypse.constructor === String) {
-    if (!opts) {
-      opts = {};
-    }
     opts.apicalypse = apicalypse;
   } else if (apicalypse) {
     opts = apicalypse;
