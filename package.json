@@ -7,7 +7,8 @@
     "prepare": "npm run build",
     "test": "mocha --compilers js:@babel/register",
     "testDebug": "mocha --inspect-brk --compilers js:@babel/register",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "publishNext": "npm publish --tag next"
   },
   "keywords": [
     "query",
