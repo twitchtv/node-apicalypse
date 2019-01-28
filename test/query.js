@@ -47,8 +47,18 @@ describe("filter", () => {
 
   it("should not override the request body", () => {
     const test = apicalypse({
-      data: 'x'
-    }).constructOptions('/');
-    assert(test.data === 'x');
+      data: "x"
+    }).constructOptions("/");
+    assert(test.data === "x");
+  });
+
+  it("should clean limit and offset", () => {
+    const test = apicalypse()
+      .limit(1)
+      .offset(2);
+    const values = test.cleanLimitOffset();
+    assert(test.filterArray.length === 0);
+    assert(values.limit === 1);
+    assert(values.offset === 2);
   });
 });

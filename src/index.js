@@ -1,4 +1,5 @@
 import axios from "axios";
+import Queue from "better-queue";
 
 class Apicalypse {
   constructor(opts) {
@@ -87,6 +88,57 @@ class Apicalypse {
   async request(url) {
     const response = await axios.create()(this.constructOptions(url));
     return response;
+  }
+
+  cleanLimitOffset() {
+    // Get existing limit & offset
+    const allLimits = this.filterArray.filter(
+      f => f.substring(0, 6) === "limit "
+    );
+    const allOffsets = this.filterArray.filter(
+      f => f.substring(0, 7) === "offset "
+    );
+
+    let limit = parseInt(allLimits.length && allLimits[0].split(" ")[1]) || 50;
+    let offset =
+      parseInt(allOffsets.length && allOffsets[0].split(" ")[1]) || 0;
+
+    this.filterArray = this.filterArray.filter(
+      f => f.substring(0, 7) !== "offset " && f.substring(0, 6) !== "limit "
+    );
+
+    return { limit, offset };
+  }
+
+  requestAll({ url, concurrency, delay }) {
+    return new Promise(resolve => {
+      let allData = [];
+
+      const { limit, offset } = this.cleanLimitOffset();
+
+      const q = new Queue(
+        async (page, cb) => {
+          this.limit(limit);
+          this.offset(offset + page * limit);
+          const response = await this.request(url);
+          if (response.data.length <= limit) {
+            allData = allData.concat(response.data);
+            q.push(page + 1);
+          }
+          setTimeout(() => {
+            cb(null);
+          }, delay || 0);
+        },
+        { concurrent: concurrency || 1 }
+      );
+
+      q.on("drain", () => {
+        resolve(allData);
+      });
+
+      const initialPage = Math.floor(offset ? offset / limit : 0);
+      q.push(initialPage);
+    });
   }
 }
 
