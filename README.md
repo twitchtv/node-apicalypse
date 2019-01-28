@@ -100,6 +100,18 @@ const response = await apicalypse({
 console.log(response.data);
 ```
 
+### Request all
+
+```javascript
+// Request all pages until results are depleted
+const response = await apicalypse()
+    .limit(50)
+    .requestAll("https://myapi.com/actors/nm0000216", {
+        concurrency: 2, // number of threads requesting in parallel
+        delay: 100 // delay between each request (when only one thread)
+    });
+```
+
 ## License
 
 MIT
