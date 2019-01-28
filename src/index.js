@@ -124,7 +124,7 @@ class Apicalypse {
           this.limit(limit);
           this.offset(offset + page * limit);
           const response = await this.request(url);
-          if (response.data.length <= limit) {
+          if (response.data.length >= limit) {
             allData = allData.concat(response.data);
             q.push(page + 1);
           }
