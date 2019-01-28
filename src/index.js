@@ -120,6 +120,7 @@ class Apicalypse {
 
       const q = new Queue(
         async (page, cb) => {
+          this.cleanLimitOffset();
           this.limit(limit);
           this.offset(offset + page * limit);
           const response = await this.request(url);
