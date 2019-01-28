@@ -82,7 +82,7 @@ class Apicalypse {
       }
     }
 
-    return Object.assign(this.config, options);
+    return Object.assign({}, this.config, options);
   }
 
   async request(url) {
