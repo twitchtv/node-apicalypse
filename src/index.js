@@ -110,7 +110,7 @@ class Apicalypse {
     return { limit, offset };
   }
 
-  requestAll({ url, concurrency, delay }) {
+  requestAll(url, { concurrency, delay }) {
     return new Promise(resolve => {
       let allData = [];
 
