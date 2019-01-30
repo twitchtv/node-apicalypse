@@ -1,8 +1,10 @@
 import axios from "axios";
 import Queue from "better-queue";
+import Builder from "./builder";
 
-class Apicalypse {
+class Apicalypse extends Builder {
   constructor(opts) {
+    super();
     this.apicalypse = opts.apicalypse;
 
     this.config = Object.assign(
@@ -11,60 +13,13 @@ class Apicalypse {
       },
       opts
     );
-    this.filterArray = [];
   }
 
-  fields(fields) {
-    if (fields) {
-      let fieldsString =
-        fields && fields.constructor === Array ? fields.join(",") : fields;
-      fieldsString = fieldsString ? fieldsString.replace(/\s/g, "") : "";
-      this.filterArray.push(`fields ${fieldsString}`);
+  constructOptions(url, skipBuild) {
+    if (!skipBuild) {
+      this.build();
     }
-    return this;
-  }
 
-  sort(field, direction) {
-    if (field) {
-      this.filterArray.push(`sort ${field} ${direction || "asc"}`);
-    }
-    return this;
-  }
-
-  limit(limit) {
-    if (limit) {
-      this.filterArray.push(`limit ${limit}`);
-    }
-    return this;
-  }
-
-  offset(offset) {
-    if (offset) {
-      this.filterArray.push(`offset ${offset}`);
-    }
-    return this;
-  }
-
-  search(search) {
-    if (search) {
-      this.filterArray.push(`search ${search}`);
-    }
-    return this;
-  }
-
-  where(filters) {
-    if (filters) {
-      if (filters.constructor === Array) {
-        this.filterArray.push(`where ${filters.join(" & ")}`);
-      } else {
-        this.filterArray.push(`where ${filters.trim()}`);
-      }
-    }
-    return this;
-  }
-
-  constructOptions(url) {
-    this.apicalypse = this.filterArray ? this.filterArray.join(";") + ";" : "";
     const options = {
       url: url || this.config.url
     };
@@ -85,8 +40,10 @@ class Apicalypse {
     return Object.assign({}, this.config, options);
   }
 
-  async request(url) {
-    const response = await axios.create()(this.constructOptions(url));
+  async request(url, skipBuild) {
+    const response = await axios.create()(
+      this.constructOptions(url, skipBuild)
+    );
     return response;
   }
 

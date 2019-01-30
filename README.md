@@ -17,15 +17,13 @@ import apicalypse from 'apicalypse';
 
 const rawQueryString = "fields a,b,c;limit 50;offset 0;";
 // async/await
-(async () => {
-    try {
-        const response = await apicalypse(rawQueryString)
-            .request("https://myapi.com/actors/nm0000216");
-        console.log(response.data); // This is an axios response: https://github.com/axios/axios#response-schema
-    } catch (err) {
-        console.error(err);
-    }
-})();
+try {
+    const response = await apicalypse(rawQueryString)
+        .request("https://myapi.com/actors/nm0000216");
+    console.log(response.data); // This is an axios response: https://github.com/axios/axios#response-schema
+} catch (err) {
+    console.error(err);
+}
 
 // Promises
 apicalypse(rawQueryString)
