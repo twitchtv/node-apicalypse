@@ -3,15 +3,23 @@ import apicalypse from "../src/index";
 
 describe("multi", () => {
   it("should build a valid query", () => {
+    const now = new Date().getTime();
     const test = apicalypse().multi([
-      {
-        endpoint: "games",
-        name: "Latest Games",
-        query: apicalypse
-      }
+      apicalypse()
+        .query("games", "latest-games")
+        .fields("name")
+        .where(`created_at < ${now}`)
+        .sort("created_at desc"),
+      apicalypse()
+        .query("games", "coming-soon")
+        .fields("name")
+        .where(`created_at > ${now}`)
+        .sort("created_at asc")
     ]);
 
-    assert(test.filterArray.includes("fields a,b,c"));
-    assert(test.filterArray.includes("fields x,y,z"));
+    assert(
+      test.apicalypse ===
+        `query games "latest-games" { fields name;where created_at < ${now};sort created_at desc; };query games "coming-soon" { fields name;where created_at > ${now};sort created_at asc; };`
+    );
   });
 });

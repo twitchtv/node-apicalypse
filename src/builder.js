@@ -1,9 +1,12 @@
-import multi from "./multi";
-
 class Builder {
   constructor() {
     this.filterArray = [];
-    this.multi = multi;
+  }
+
+  query(endpoint, name) {
+    this.queryEndpoint = endpoint;
+    this.queryName = name;
+    return this;
   }
 
   fields(fields) {
@@ -18,7 +21,14 @@ class Builder {
 
   sort(field, direction) {
     if (field) {
-      this.filterArray.push(`sort ${field} ${direction || "asc"}`);
+      if (
+        field.toLowerCase().endsWith(" desc") ||
+        field.toLowerCase().endsWith(" asc")
+      ) {
+        this.filterArray.push(`sort ${field}`);
+      } else {
+        this.filterArray.push(`sort ${field} ${direction || "asc"}`);
+      }
     }
     return this;
   }
@@ -57,6 +67,24 @@ class Builder {
 
   build() {
     this.apicalypse = this.filterArray ? this.filterArray.join(";") + ";" : "";
+    return this;
+  }
+
+  buildMulti(queries) {
+    this.apicalypse = queries
+      .map(q => {
+        const { queryEndpoint, queryName } = q;
+
+        const apicalypse = q.build().apicalypse;
+        return `query ${queryEndpoint} "${queryName}" { ${apicalypse} };`;
+      })
+      .join("");
+    return this;
+  }
+
+  multi(queries) {
+    this.isMulti = true;
+    this.buildMulti(queries);
     return this;
   }
 }

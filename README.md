@@ -78,7 +78,7 @@ The configuration object passed to the apicalypse client extends the default axi
 ### Advanced example
 
 ```javascript
-const response = await apicalypse({
+const requestOptions = {
     queryMethod: "url",
     method: "post", // The default is 'get' but you can set it to whatever you like.
     baseURL: "https://myapi.com",
@@ -89,7 +89,9 @@ const response = await apicalypse({
         username: 'janedoe',
         password: 's00pers3cret'
     }
-})
+};
+
+const response = await apicalypse(requestOptions)
     .fields("name,movies,age")
     .limit(50)    
     .query("age > 50 & movies != n")
@@ -108,6 +110,25 @@ const response = await apicalypse()
         concurrency: 2, // number of threads requesting in parallel
         delay: 100 // delay between each request (when only one thread)
     });
+```
+
+### Multi-Query
+
+```javascript
+// Merge queries together into a single request
+const response = await apicalypse(requestOptions)
+    .multi([
+      apicalypse()
+        .query("games", "latest-games")
+        .fields("name")
+        .where(`created_at < ${now}`)
+        .sort("created_at desc"),
+      apicalypse()
+        .query("games", "coming-soon")
+        .fields("name")
+        .where(`created_at > ${now}`)
+        .sort("created_at asc")
+    ]).request("/multiquery");
 ```
 
 ## License

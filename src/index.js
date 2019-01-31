@@ -15,8 +15,8 @@ class Apicalypse extends Builder {
     );
   }
 
-  constructOptions(url, skipBuild) {
-    if (!skipBuild) {
+  constructOptions(url) {
+    if (!this.isMulti) {
       this.build();
     }
 
@@ -40,10 +40,8 @@ class Apicalypse extends Builder {
     return Object.assign({}, this.config, options);
   }
 
-  async request(url, skipBuild) {
-    const response = await axios.create()(
-      this.constructOptions(url, skipBuild)
-    );
+  async request(url) {
+    const response = await axios.create()(this.constructOptions(url));
     return response;
   }
 
