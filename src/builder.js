@@ -49,7 +49,7 @@ class Builder {
 
   search(search) {
     if (search) {
-      this.filterArray.push(`search ${search}`);
+      this.filterArray.push(`search "${search}"`);
     }
     return this;
   }

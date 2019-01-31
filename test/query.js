@@ -33,7 +33,7 @@ describe("filter", () => {
     const search = "It's always sunny in philadelphia";
     const test = apicalypse().search(search);
 
-    assert(test.filterArray.includes(`search ${search}`));
+    assert(test.filterArray.includes(`search "${search}"`));
   });
 
   it("should add where to filterArray", () => {
