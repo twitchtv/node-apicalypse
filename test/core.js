@@ -35,4 +35,16 @@ describe("core", () => {
 
     assert.equal(test.data, "limit 10;");
   });
+
+  it("should reset the instance on request", () => {
+    const instance = apicalypse();
+
+    instance.limit(10).constructOptions("/test1");
+    const opts = instance.offset(10).constructOptions("/test1");
+    assert.equal(instance.filterArray.length, 0);
+    assert.equal(opts.data, "offset 10;");
+
+    instance.limit(5);
+    assert.equal(instance.filterArray.length, 1);
+  });
 });

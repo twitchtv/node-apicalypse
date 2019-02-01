@@ -37,12 +37,19 @@ class Apicalypse extends Builder {
       }
     }
 
+    this.resetRequest();
     return Object.assign({}, this.config, options);
   }
 
   async request(url) {
     const response = await axios.create()(this.constructOptions(url));
     return response;
+  }
+
+  resetRequest() {
+    this.filterArray = [];
+    this.apicalypse = "";
+    this.config.data = false;
   }
 
   cleanLimitOffset() {
