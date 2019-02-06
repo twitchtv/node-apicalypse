@@ -117,12 +117,13 @@ console.log(response.data);
 
 ```js
 // Request all pages until results are depleted
-const response = await apicalypse()
+const data = await apicalypse()
     .limit(50)
     .requestAll('https://myapi.com/actors/nm0000216', {
         concurrency: 2, // number of threads requesting in parallel
         delay: 100 // delay between each request (when only one thread)
     });
+// Note that `data` will be the combined data and not an axios response object.
 ```
 
 ### Multi-Query
