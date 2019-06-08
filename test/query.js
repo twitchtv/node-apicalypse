@@ -61,4 +61,10 @@ describe("filter", () => {
     assert(values.limit === 1);
     assert(values.offset === 2);
   });
+
+  it("should handle an empty query", () => {
+    const test = apicalypse()
+      .constructOptions();
+    assert.equal(test.data, "");
+  });
 });

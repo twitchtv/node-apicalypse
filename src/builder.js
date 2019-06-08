@@ -66,7 +66,9 @@ class Builder {
   }
 
   build() {
-    this.apicalypse = this.filterArray ? this.filterArray.join(";") + ";" : "";
+    this.apicalypse = this.filterArray.length
+      ? this.filterArray.join(";") + ";"
+      : "";
     return this;
   }
 
