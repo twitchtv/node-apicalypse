@@ -1,5 +1,6 @@
 import axios from "axios";
 import Queue from "better-queue";
+import MemoryStore from "better-queue-memory";
 import Builder from "./builder";
 
 class Apicalypse extends Builder {
@@ -94,7 +95,10 @@ class Apicalypse extends Builder {
             cb(null);
           }, delay || 0);
         },
-        { concurrent: concurrency || 1 }
+        {
+          concurrent: concurrency || 1,
+          store: new MemoryStore()
+        }
       );
 
       q.on("drain", () => {
