@@ -1,6 +1,6 @@
 {
   "name": "apicalypse",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "The apicalypse query language client for nodejs",
   "main": "dist/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "prettier": "^1.14.2"
   },
   "dependencies": {
-    "axios": "^0.19.0-beta.1",
+    "axios": "^0.19.0",
     "better-queue": "^3.8.10",
     "better-queue-memory": "^1.0.3"
   }
