@@ -19,6 +19,16 @@ class Builder {
     return this;
   }
 
+  exclude(exclude) {
+    if (exclude) {
+      let excludeString =
+      exclude && exclude.constructor === Array ? exclude.join(",") : exclude;
+      excludeString = excludeString ? excludeString.replace(/\s/g, "") : "";
+      this.filterArray.push(`exclude ${excludeString}`);
+    }
+    return this;
+  }
+  
   sort(field, direction) {
     if (field) {
       if (
