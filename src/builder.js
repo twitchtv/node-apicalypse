@@ -22,13 +22,13 @@ class Builder {
   exclude(exclude) {
     if (exclude) {
       let excludeString =
-      exclude && exclude.constructor === Array ? exclude.join(",") : exclude;
+        exclude && exclude.constructor === Array ? exclude.join(",") : exclude;
       excludeString = excludeString ? excludeString.replace(/\s/g, "") : "";
       this.filterArray.push(`exclude ${excludeString}`);
     }
     return this;
   }
-  
+
   sort(field, direction) {
     if (field) {
       if (
@@ -84,7 +84,7 @@ class Builder {
 
   buildMulti(queries) {
     this.apicalypse = queries
-      .map(q => {
+      .map((q) => {
         const { queryEndpoint, queryName } = q;
 
         const apicalypse = q.build().apicalypse;

@@ -18,7 +18,7 @@ describe("core", () => {
 
   it("should safely put the apicalypse in the url", () => {
     const test = apicalypse({
-      queryMethod: "url"
+      queryMethod: "url",
     })
       .limit(10)
       .constructOptions("/test1");
@@ -28,7 +28,7 @@ describe("core", () => {
 
   it("should put the apicalypse in the body", () => {
     const test = apicalypse({
-      queryMethod: "body"
+      queryMethod: "body",
     })
       .limit(10)
       .constructOptions("/test1");

@@ -3,27 +3,21 @@ import apicalypse from "../src/index";
 
 describe("filter", () => {
   it("should add fields to filterArray", () => {
-    const test = apicalypse()
-      .fields(["a", "b", "c"])
-      .fields(" x,y,z ");
+    const test = apicalypse().fields(["a", "b", "c"]).fields(" x,y,z ");
 
     assert(test.filterArray.includes("fields a,b,c"));
     assert(test.filterArray.includes("fields x,y,z"));
   });
 
   it("should add limit & offset to filterArray", () => {
-    const test = apicalypse()
-      .limit(10)
-      .offset(10);
+    const test = apicalypse().limit(10).offset(10);
 
     assert(test.filterArray.includes("limit 10"));
     assert(test.filterArray.includes("offset 10"));
   });
 
   it("should add sort to filterArray", () => {
-    const test = apicalypse()
-      .sort("name", "desc")
-      .sort("name");
+    const test = apicalypse().sort("name", "desc").sort("name");
 
     assert(test.filterArray.includes("sort name desc"));
     assert(test.filterArray.includes("sort name asc"));
@@ -47,15 +41,13 @@ describe("filter", () => {
 
   it("should not override the request body", () => {
     const test = apicalypse({
-      data: "x"
+      data: "x",
     }).constructOptions("/");
     assert(test.data === "x");
   });
 
   it("should clean limit and offset", () => {
-    const test = apicalypse()
-      .limit(1)
-      .offset(2);
+    const test = apicalypse().limit(1).offset(2);
     const values = test.cleanLimitOffset();
     assert(test.filterArray.length === 0);
     assert(values.limit === 1);
@@ -63,8 +55,7 @@ describe("filter", () => {
   });
 
   it("should handle an empty query", () => {
-    const test = apicalypse()
-      .constructOptions();
+    const test = apicalypse().constructOptions();
     assert.equal(test.data, "");
   });
 });

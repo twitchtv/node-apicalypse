@@ -14,7 +14,7 @@ describe("multi", () => {
         .query("games", "coming-soon")
         .fields("name")
         .where(`created_at > ${now}`)
-        .sort("created_at asc")
+        .sort("created_at asc"),
     ]);
 
     assert(
