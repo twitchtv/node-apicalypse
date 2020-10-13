@@ -48,27 +48,25 @@ class Apicalypse extends Builder {
   }
 
   resetRequest() {
-    this.filterArray = [];
+    this.resetQueryFields();
     this.apicalypse = "";
     this.config.data = false;
   }
 
   cleanLimitOffset() {
     // Get existing limit & offset
-    const allLimits = this.filterArray.filter(
-      (f) => f.substring(0, 6) === "limit "
-    );
-    const allOffsets = this.filterArray.filter(
-      (f) => f.substring(0, 7) === "offset "
-    );
 
-    let limit = parseInt(allLimits.length && allLimits[0].split(" ")[1]) || 50;
-    let offset =
-      parseInt(allOffsets.length && allOffsets[0].split(" ")[1]) || 0;
+    const limit =
+      parseInt(
+        this.queryFields.limit && this.queryFields.limit.split(" ")[1]
+      ) || 50;
+    const offset =
+      parseInt(
+        this.queryFields.offset && this.queryFields.offset.split(" ")[1]
+      ) || 0;
 
-    this.filterArray = this.filterArray.filter(
-      (f) => f.substring(0, 7) !== "offset " && f.substring(0, 6) !== "limit "
-    );
+    delete this.queryFields.limit;
+    delete this.queryFields.offset;
 
     return { limit, offset };
   }

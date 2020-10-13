@@ -1,6 +1,6 @@
 {
   "name": "apicalypse",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "The apicalypse query language client for nodejs",
   "main": "dist/index.js",
   "scripts": {
@@ -16,7 +16,6 @@
     "graphql",
     "apicalypse"
   ],
-  "author": "krazyjakee@gmail.com",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.11.6",

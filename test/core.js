@@ -41,10 +41,16 @@ describe("core", () => {
 
     instance.limit(10).constructOptions("/test1");
     const opts = instance.offset(10).constructOptions("/test1");
-    assert.deepStrictEqual(instance.filterArray.length, 0);
+    assert.deepStrictEqual(Object.keys(instance.queryFields).length, 1);
     assert.deepStrictEqual(opts.data, "offset 10;");
 
     instance.limit(5);
-    assert.deepStrictEqual(instance.filterArray.length, 1);
+    assert.deepStrictEqual(Object.keys(instance.queryFields).length, 2);
+  });
+
+  it("should not add duplicate fields", () => {
+    const instance = apicalypse();
+    instance.limit(10).limit(11);
+    assert.deepStrictEqual(Object.keys(instance.queryFields).length, 2);
   });
 });
