@@ -8,18 +8,18 @@ describe("multi", () => {
       apicalypse()
         .query("games", "latest-games")
         .fields("name")
-        .where(`created_at < ${now}`)
-        .sort("created_at desc"),
+        .sort("created_at desc")
+        .where(`created_at < ${now}`),
       apicalypse()
         .query("games", "coming-soon")
         .fields("name")
-        .where(`created_at > ${now}`)
         .sort("created_at asc")
+        .where(`created_at > ${now}`),
     ]);
 
-    assert(
-      test.apicalypse ===
-        `query games "latest-games" { fields name;where created_at < ${now};sort created_at desc; };query games "coming-soon" { fields name;where created_at > ${now};sort created_at asc; };`
+    assert.deepStrictEqual(
+      test.apicalypse,
+      `query games "latest-games" { fields name;sort created_at desc;where created_at < ${now}; };query games "coming-soon" { fields name;sort created_at asc;where created_at > ${now}; };`
     );
   });
 });
