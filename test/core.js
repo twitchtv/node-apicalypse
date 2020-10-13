@@ -5,15 +5,15 @@ describe("core", () => {
   it("should initiate with a default configuration", () => {
     const test = apicalypse();
 
-    assert.equal(test.config.queryMethod, "body");
+    assert.deepStrictEqual(test.config.queryMethod, "body");
   });
 
   it("should initiate with an apicalypse filter and config", () => {
     const filter = `fields id;limit 50; offset 50;`;
     const test = apicalypse(filter, { queryMethod: "url" });
 
-    assert.equal(test.apicalypse, filter);
-    assert.equal(test.config.queryMethod, "url");
+    assert.deepStrictEqual(test.apicalypse, filter);
+    assert.deepStrictEqual(test.config.queryMethod, "url");
   });
 
   it("should safely put the apicalypse in the url", () => {
@@ -23,7 +23,7 @@ describe("core", () => {
       .limit(10)
       .constructOptions("/test1");
 
-    assert.equal(test.params.apicalypse, "limit%2010%3B");
+    assert.deepStrictEqual(test.params.apicalypse, "limit%2010%3B");
   });
 
   it("should put the apicalypse in the body", () => {
@@ -33,7 +33,7 @@ describe("core", () => {
       .limit(10)
       .constructOptions("/test1");
 
-    assert.equal(test.data, "limit 10;");
+    assert.deepStrictEqual(test.data, "limit 10;");
   });
 
   it("should reset the instance on request", () => {
@@ -41,10 +41,10 @@ describe("core", () => {
 
     instance.limit(10).constructOptions("/test1");
     const opts = instance.offset(10).constructOptions("/test1");
-    assert.equal(instance.filterArray.length, 0);
-    assert.equal(opts.data, "offset 10;");
+    assert.deepStrictEqual(instance.filterArray.length, 0);
+    assert.deepStrictEqual(opts.data, "offset 10;");
 
     instance.limit(5);
-    assert.equal(instance.filterArray.length, 1);
+    assert.deepStrictEqual(instance.filterArray.length, 1);
   });
 });
