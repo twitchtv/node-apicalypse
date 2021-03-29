@@ -28,7 +28,7 @@
     "prettier": "^2.1.2"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "better-queue": "^3.8.10",
     "better-queue-memory": "^1.0.4"
   }
