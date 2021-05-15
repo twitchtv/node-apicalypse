@@ -2,6 +2,7 @@ import axios from "axios";
 import Queue from "better-queue";
 import MemoryStore from "better-queue-memory";
 import Builder from "./builder";
+const axiosInstance = axios.create();
 
 class Apicalypse extends Builder {
   constructor(opts) {
@@ -43,7 +44,8 @@ class Apicalypse extends Builder {
   }
 
   async request(url) {
-    const response = await axios.create()(this.constructOptions(url));
+    const axiosInstance = this.config.axiosInstance || axiosInstance;
+    const response = await axiosInstance(this.constructOptions(url));
     return response;
   }
 
