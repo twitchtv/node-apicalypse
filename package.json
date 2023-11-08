@@ -24,7 +24,7 @@
     "@babel/register": "^7.13.16",
     "eslint": "^7.25.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "mocha": "^8.3.2",
+    "mocha": "^10.2.0",
     "prettier": "^2.2.1"
   },
   "dependencies": {
