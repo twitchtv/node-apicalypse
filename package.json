@@ -22,13 +22,13 @@
     "@babel/core": "^7.13.16",
     "@babel/preset-env": "^7.13.15",
     "@babel/register": "^7.13.16",
-    "eslint": "^7.25.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "mocha": "^8.3.2",
-    "prettier": "^2.2.1"
+    "eslint": "^9.9.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "mocha": "^10.7.3",
+    "prettier": "^3.3.3"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^1.7.3",
     "better-queue": "^3.8.10",
     "better-queue-memory": "^1.0.4"
   }
