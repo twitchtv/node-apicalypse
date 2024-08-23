@@ -44,8 +44,8 @@ class Apicalypse extends Builder {
   }
 
   async request(url) {
-    const axiosInstance = this.config.axiosInstance || axiosInstance;
-    const response = await axiosInstance(this.constructOptions(url));
+    const instance = this.config.axiosInstance || axiosInstance;
+    const response = await instance(this.constructOptions(url));
     return response;
   }
 
