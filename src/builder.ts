@@ -1,41 +1,56 @@
+interface QueryFields {
+  where: string[];
+  fields?: string;
+  exclude?: string;
+  sort?: string;
+  limit?: string;
+  offset?: string;
+  search?: string;
+  [key: string]: string | string[] | undefined;
+}
+
 class Builder {
+  protected queryFields: QueryFields = { where: [] };
+  protected queryEndpoint?: string;
+  protected queryName?: string;
+  protected apicalypse: string = "";
+  protected isMulti: boolean = false;
+
   constructor() {
     this.resetQueryFields();
   }
 
-  resetQueryFields() {
+  protected resetQueryFields(): void {
     this.queryFields = {
       where: [],
     };
   }
 
-  query(endpoint, name) {
+  query(endpoint: string, name: string): this {
     this.queryEndpoint = endpoint;
     this.queryName = name;
     return this;
   }
 
-  fields(fields) {
+  fields(fields: string | string[]): this {
     if (fields) {
-      let fieldsString =
-        fields && fields.constructor === Array ? fields.join(",") : fields;
+      let fieldsString = Array.isArray(fields) ? fields.join(",") : fields;
       fieldsString = fieldsString ? fieldsString.replace(/\s/g, "") : "";
       this.queryFields.fields = `fields ${fieldsString}`;
     }
     return this;
   }
 
-  exclude(exclude) {
+  exclude(exclude: string | string[]): this {
     if (exclude) {
-      let excludeString =
-        exclude && exclude.constructor === Array ? exclude.join(",") : exclude;
+      let excludeString = Array.isArray(exclude) ? exclude.join(",") : exclude;
       excludeString = excludeString ? excludeString.replace(/\s/g, "") : "";
       this.queryFields.exclude = `exclude ${excludeString}`;
     }
     return this;
   }
 
-  sort(field, direction) {
+  sort(field: string, direction?: "asc" | "desc"): this {
     if (field) {
       if (
         field.toLowerCase().endsWith(" desc") ||
@@ -49,30 +64,30 @@ class Builder {
     return this;
   }
 
-  limit(limit) {
+  limit(limit: number): this {
     if (limit) {
       this.queryFields.limit = `limit ${limit}`;
     }
     return this;
   }
 
-  offset(offset) {
+  offset(offset: number): this {
     if (offset) {
       this.queryFields.offset = `offset ${offset}`;
     }
     return this;
   }
 
-  search(search) {
+  search(search: string): this {
     if (search) {
       this.queryFields.search = `search "${search}"`;
     }
     return this;
   }
 
-  where(filters) {
+  where(filters: string | string[]): this {
     if (filters) {
-      if (filters.constructor === Array) {
+      if (Array.isArray(filters)) {
         this.queryFields.where.push(`where ${filters.join(" & ")}`);
       } else {
         this.queryFields.where.push(`where ${filters.trim()}`);
@@ -81,7 +96,7 @@ class Builder {
     return this;
   }
 
-  build() {
+  build(): this {
     const { where, ...rest } = this.queryFields;
     this.apicalypse =
       Object.keys(this.queryFields).length > 1 ||
@@ -91,7 +106,7 @@ class Builder {
     return this;
   }
 
-  buildMulti(queries) {
+  buildMulti(queries: Builder[]): this {
     this.apicalypse = queries
       .map((q) => {
         const { queryEndpoint, queryName } = q;
@@ -103,7 +118,7 @@ class Builder {
     return this;
   }
 
-  multi(queries) {
+  multi(queries: Builder[]): this {
     this.isMulti = true;
     this.buildMulti(queries);
     return this;

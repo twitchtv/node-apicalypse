@@ -1,5 +1,5 @@
 import assert from "assert";
-import apicalypse from "../src/index";
+import apicalypse from "../src/index.js";
 
 describe("core", () => {
   it("should initiate with a default configuration", () => {

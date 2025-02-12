@@ -1,29 +1,44 @@
 import axios from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import Queue from "better-queue";
 import MemoryStore from "better-queue-memory";
-import Builder from "./builder";
-const axiosInstance = axios.create();
+import Builder from "./builder.js";
+
+interface ApicalypseConfig extends Omit<AxiosRequestConfig, 'url'> {
+  queryMethod?: "body" | "url";
+  apicalypse?: string;
+  data?: any;
+  axiosInstance?: AxiosInstance;
+  url?: string;
+}
+
+interface RequestAllOptions {
+  concurrency?: number;
+  delay?: number;
+}
+
+const axiosInstance: AxiosInstance = axios.create();
 
 class Apicalypse extends Builder {
-  constructor(opts) {
-    super();
-    this.apicalypse = opts.apicalypse;
+  private config: ApicalypseConfig;
 
-    this.config = Object.assign(
-      {
-        queryMethod: "body",
-      },
-      opts
-    );
+  constructor(opts: ApicalypseConfig) {
+    super();
+    this.apicalypse = opts.apicalypse || "";
+
+    this.config = {
+      queryMethod: "body",
+      ...opts,
+    };
   }
 
-  constructOptions(url) {
+  constructOptions(url?: string): AxiosRequestConfig {
     if (!this.isMulti) {
       this.build();
     }
 
-    const options = {
-      url: url || this.config.url,
+    const options: AxiosRequestConfig = {
+      url: url || this.config.url || "",
     };
 
     switch (this.config.queryMethod) {
@@ -40,32 +55,27 @@ class Apicalypse extends Builder {
     }
 
     this.resetRequest();
-    return Object.assign({}, this.config, options);
+    return { ...this.config, ...options };
   }
 
-  async request(url) {
+  async request(url?: string): Promise<AxiosResponse> {
     const instance = this.config.axiosInstance || axiosInstance;
     const response = await instance(this.constructOptions(url));
     return response;
   }
 
-  resetRequest() {
+  resetRequest(): void {
     this.resetQueryFields();
     this.apicalypse = "";
     this.config.data = false;
   }
 
-  cleanLimitOffset() {
-    // Get existing limit & offset
+  cleanLimitOffset(): { limit: number; offset: number } {
+    const limitStr = this.queryFields.limit?.split(" ")[1];
+    const offsetStr = this.queryFields.offset?.split(" ")[1];
 
-    const limit =
-      parseInt(
-        this.queryFields.limit && this.queryFields.limit.split(" ")[1]
-      ) || 50;
-    const offset =
-      parseInt(
-        this.queryFields.offset && this.queryFields.offset.split(" ")[1]
-      ) || 0;
+    const limit = limitStr ? parseInt(limitStr) : 50;
+    const offset = offsetStr ? parseInt(offsetStr) : 0;
 
     delete this.queryFields.limit;
     delete this.queryFields.offset;
@@ -73,16 +83,16 @@ class Apicalypse extends Builder {
     return { limit, offset };
   }
 
-  requestAll(url, opts = {}) {
+  requestAll(url?: string, opts: RequestAllOptions = {}): Promise<any[]> {
     const { concurrency, delay } = opts;
 
     return new Promise((resolve) => {
-      let allData = [];
+      let allData: any[] = [];
 
       const { limit, offset } = this.cleanLimitOffset();
 
-      const q = new Queue(
-        async (page, cb) => {
+      const q = new Queue<number, void>(
+        async (page: number, cb: (error: Error | null) => void) => {
           this.cleanLimitOffset();
           this.limit(limit);
           this.offset(offset + page * limit);
@@ -97,7 +107,7 @@ class Apicalypse extends Builder {
         },
         {
           concurrent: concurrency || 1,
-          store: new MemoryStore(),
+          store: new MemoryStore() as any,
         }
       );
 
@@ -111,12 +121,14 @@ class Apicalypse extends Builder {
   }
 }
 
-export default (apicalypse, opts) => {
-  opts = opts || {};
-  if (apicalypse && apicalypse.constructor === String) {
+export default function (
+  apicalypse?: string | ApicalypseConfig,
+  opts: ApicalypseConfig = {}
+): Apicalypse {
+  if (typeof apicalypse === "string") {
     opts.apicalypse = apicalypse;
   } else if (apicalypse) {
     opts = apicalypse;
   }
   return new Apicalypse(opts);
-};
+}
