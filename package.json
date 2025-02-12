@@ -1,13 +1,13 @@
 {
   "name": "apicalypse",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "The apicalypse query language client for nodejs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "prepare": "npm run build",
-    "test": "mocha --loader=ts-node/esm test/**/*.js",
+    "test": "npm run build && mocha --loader=ts-node/esm test/**/*.js",
     "build": "tsc",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean"

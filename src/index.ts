@@ -37,6 +37,9 @@ class Apicalypse extends Builder {
   constructOptions(url?: string): AxiosRequestConfig {
     if (!this.isMulti) {
       this.build();
+      if (!this.apicalypse) {
+        this.apicalypse = this.initialApicalypse;
+      }
     }
 
     const options: AxiosRequestConfig = {
@@ -69,7 +72,7 @@ class Apicalypse extends Builder {
   resetRequest(): void {
     this.resetQueryFields();
     this.apicalypse = this.initialApicalypse;
-    this.config.data = false;
+    this.config.data = this.apicalypse || false;
   }
 
   cleanLimitOffset(): { limit: number; offset: number } {
