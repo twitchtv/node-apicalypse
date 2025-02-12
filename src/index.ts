@@ -4,7 +4,7 @@ import Queue from "better-queue";
 import MemoryStore from "better-queue-memory";
 import Builder from "./builder.js";
 
-interface ApicalypseConfig extends Omit<AxiosRequestConfig, 'url'> {
+export interface ApicalypseConfig extends Omit<AxiosRequestConfig, 'url'> {
   queryMethod?: "body" | "url";
   apicalypse?: string;
   data?: any;
@@ -12,7 +12,7 @@ interface ApicalypseConfig extends Omit<AxiosRequestConfig, 'url'> {
   url?: string;
 }
 
-interface RequestAllOptions {
+export interface RequestAllOptions {
   concurrency?: number;
   delay?: number;
 }
@@ -21,10 +21,12 @@ const axiosInstance: AxiosInstance = axios.create();
 
 class Apicalypse extends Builder {
   private config: ApicalypseConfig;
+  private initialApicalypse: string;
 
   constructor(opts: ApicalypseConfig) {
     super();
-    this.apicalypse = opts.apicalypse || "";
+    this.initialApicalypse = opts.apicalypse || "";
+    this.apicalypse = this.initialApicalypse;
 
     this.config = {
       queryMethod: "body",
@@ -66,7 +68,7 @@ class Apicalypse extends Builder {
 
   resetRequest(): void {
     this.resetQueryFields();
-    this.apicalypse = "";
+    this.apicalypse = this.initialApicalypse;
     this.config.data = false;
   }
 

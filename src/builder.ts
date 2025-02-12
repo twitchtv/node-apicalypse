@@ -1,4 +1,4 @@
-interface QueryFields {
+export interface QueryFields {
   where: string[];
   fields?: string;
   exclude?: string;

@@ -16,6 +16,12 @@ describe("core", () => {
     assert.deepStrictEqual(test.config.queryMethod, "url");
   });
 
+  it("should initiate with an apicalypse in an options object", () => {
+    const filter = `fields id;limit 50; offset 50;`;
+    const test = apicalypse({ apicalypse: filter });
+    assert.deepStrictEqual(test.apicalypse, filter);
+  });
+
   it("should safely put the apicalypse in the url", () => {
     const test = apicalypse({
       queryMethod: "url",
